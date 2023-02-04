@@ -5,22 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
-    tools:context=".MainActivity">
-
-    <Button
-        android:id="@+id/startBtn"
-        android:layout_width="150dp"
-        android:layout_height="60dp"
-        android:backgroundTint="@color/btnColor"
-        android:fontFamily="monospace"
-        android:text="Start Game"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/titleText"
-        app:layout_constraintVertical_bias="0.159"
-        android:onClick="onStartBtnClick" />
+    tools:context=".CustomizationScreen">
 
     <TextView
         android:id="@+id/titleText"
@@ -35,20 +20,32 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.326" />
 
-    <Button
-        android:id="@+id/exitBtn"
-        android:layout_width="150dp"
+    <EditText
+        android:id="@+id/playerName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Enter Name"
+        android:inputType="textPersonName"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/titleText"
+        app:layout_constraintVertical_bias="0.148" />
+
+    <ImageButton
+        android:id="@+id/imageButton"
+        android:layout_width="85dp"
         android:layout_height="60dp"
-        android:layout_marginBottom="188dp"
+        android:background="@drawable/rounded_corner"
         android:backgroundTint="@color/btnColor"
-        android:fontFamily="monospace"
-        android:text="Exit Game"
+        android:onClick="onPlayBtnClick"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/startBtn"
-        app:layout_constraintVertical_bias="0.2"
-        android:onClick="onExitBtnClick" />
-
+        app:layout_constraintTop_toBottomOf="@+id/playerName"
+        app:layout_constraintVertical_bias="0.634"
+        app:srcCompat="@android:drawable/ic_media_play" />
 </androidx.constraintlayout.widget.ConstraintLayout>
