@@ -24,7 +24,7 @@ public class CustomizationScreen extends AppCompatActivity {
         if (name.equals("") || name.trim().isEmpty()) {
             playerName.setError("Please enter a name");
         } else {
-            Intent intent = new Intent(CustomizationScreen.this, GameScreen.class);
+            Intent intent = new Intent(CustomizationScreen.this, SpriteSelectionScreen.class);
             startActivity(intent);
         }
     }
