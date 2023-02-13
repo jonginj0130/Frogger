@@ -1,6 +1,7 @@
 package com.example.cs2340project;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.widget.ImageButton;
 
@@ -19,14 +20,21 @@ public class SpriteSelectionScreen extends AppCompatActivity {
         ImageButton blueFrogBtn = (ImageButton) findViewById(R.id.blue_frog);
         ImageButton redFrogBtn = (ImageButton) findViewById(R.id.red_frog);
 
-        greenFrogBtn.setOnClickListener(view -> onBtnClick());
-        blueFrogBtn.setOnClickListener(view -> onBtnClick());
-        redFrogBtn.setOnClickListener(view -> onBtnClick());
+        greenFrogBtn.setOnClickListener(view -> onBtnClick(R.drawable.green_frog));
+        blueFrogBtn.setOnClickListener(view -> onBtnClick(R.drawable.blue_frog));
+        redFrogBtn.setOnClickListener(view -> onBtnClick(R.drawable.red_frog));
     }
 
 
-    public void onBtnClick()   {
+    public void onBtnClick(int color) {
         Intent intent = new Intent(SpriteSelectionScreen.this, GameScreen.class);
+
+        Bundle bundle = getIntent().getExtras();
+
+        //specific sprite is an int because R.drawable.x is an id
+        bundle.putInt("spriteColor", color);
+        System.out.println(color);
+        intent.putExtras(bundle);
         startActivity(intent);
     }
 
