@@ -20,9 +20,9 @@ public class CustomizationScreen extends AppCompatActivity {
 
     public void onPlayBtnClick(View view) {
         TextView playerName = findViewById(R.id.playerName);
-        String name = playerName.getText().toString();
+        String name = playerName.getText().toString().trim();
 
-        if (name.equals("") || name.trim().isEmpty()) {
+        if (name.isEmpty()) {
             playerName.setError("Please enter a name");
         } else {
             Intent intent = new Intent(CustomizationScreen.this, SpriteSelectionScreen.class);

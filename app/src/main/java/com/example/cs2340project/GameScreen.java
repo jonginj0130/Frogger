@@ -14,21 +14,19 @@ public class GameScreen extends AppCompatActivity {
         setContentView(R.layout.activity_game_screen);
 
         Bundle bundle = getIntent().getExtras();
+        String diff = bundle.getString("diff");
         int numLives = 3;
-        switch (bundle.getString("diff")) {
-            case "Easy":
-                numLives = 5;
-                break;
-            case "Medium":
-                numLives = 4;
-                break;
+        if (diff.equals("Easy")) {
+            numLives = 5;
+        } else if (diff.equals("Medium")) {
+            numLives = 4;
         }
 
         TextView nameTextView = findViewById(R.id.nameText);
         nameTextView.setText("Name: " + bundle.getString("name"));
 
         TextView diffTextView = findViewById(R.id.diffText);
-        diffTextView.setText("Difficulty: " + bundle.getString("diff"));
+        diffTextView.setText("Difficulty: " + diff);
 
         TextView livesTextView = findViewById(R.id.livesText);
         livesTextView.setText("Lives: " + numLives);
