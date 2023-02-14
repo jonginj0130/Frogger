@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -21,9 +22,15 @@ public class SpriteSelectionScreen extends AppCompatActivity {
         ImageButton blueFrogBtn = (ImageButton) findViewById(R.id.blue_frog);
         ImageButton redFrogBtn = (ImageButton) findViewById(R.id.red_frog);
 
+
         greenFrogBtn.setOnClickListener(view -> onBtnClick(R.drawable.green_frog, greenFrogBtn));
         blueFrogBtn.setOnClickListener(view -> onBtnClick(R.drawable.blue_frog, blueFrogBtn));
         redFrogBtn.setOnClickListener(view -> onBtnClick(R.drawable.red_frog, redFrogBtn));
+
+        Bundle bundle = getIntent().getExtras();
+        String name = bundle.getString("name");
+        TextView titleView = findViewById(R.id.selection_title);
+        titleView.setText(name + ", choose your character");
     }
 
 
