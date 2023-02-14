@@ -22,6 +22,19 @@
             android:orientation="vertical" >
 
             <TextView
+                android:id="@+id/nameText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="monospace"
+                android:text="Name: {name}"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.326" />
+
+            <TextView
                 android:id="@+id/diffText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -35,11 +48,11 @@
                 app:layout_constraintVertical_bias="0.326" />
 
             <TextView
-                android:id="@+id/nameText"
+                android:id="@+id/livesText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="monospace"
-                android:text="Name: {name}"
+                android:text="Lives: {lives}"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

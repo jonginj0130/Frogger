@@ -12,4 +12,6 @@
     <color name="btnColor">#3F45FF</color>
     <color name="unchecked">#99050505</color>
     <color name="checked">#050505</color>
+    <color name="spriteBackground">#52b9ff</color>
+    <color name="selectedSpriteBackground">#ebd160</color>
 </resources>
