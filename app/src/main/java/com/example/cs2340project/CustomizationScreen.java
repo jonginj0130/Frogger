@@ -21,10 +21,25 @@ public class CustomizationScreen extends AppCompatActivity {
     public void onPlayBtnClick(View view) {
         TextView playerName = findViewById(R.id.playerName);
         String name = playerName.getText().toString();
+
         if (name.equals("") || name.trim().isEmpty()) {
             playerName.setError("Please enter a name");
         } else {
-            Intent intent = new Intent(CustomizationScreen.this, GameScreen.class);
+            Intent intent = new Intent(CustomizationScreen.this, SpriteSelectionScreen.class);
+            Bundle bundle = new Bundle();
+            bundle.putString("name", name);
+
+            RadioGroup radioGroup = findViewById(R.id.radioGroup);
+            int count = radioGroup.getChildCount();
+            for (int i = 0; i < count; i++) {
+                View button = radioGroup.getChildAt(i);
+                if (((RadioButton) button).isChecked()) {
+                    button.setBackgroundResource(R.drawable.difficulty_checked);
+                    ((Button) button).setTextColor(getColor(R.color.checked));
+                    bundle.putString("diff", ((RadioButton) button).getText().toString());
+                }
+            }
+            intent.putExtras(bundle);
             startActivity(intent);
         }
     }
