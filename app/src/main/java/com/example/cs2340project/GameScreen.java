@@ -3,6 +3,7 @@ package com.example.cs2340project;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.view.View;
 import android.widget.ImageView;
 
 public class GameScreen extends AppCompatActivity {
@@ -13,13 +14,7 @@ public class GameScreen extends AppCompatActivity {
         setContentView(R.layout.activity_game_screen);
 
         Bundle bundle = getIntent().getExtras();
-        String diff = bundle.getString("diff");
-        int numLives = 3;
-        if (diff.equals("Easy")) {
-            numLives = 5;
-        } else if (diff.equals("Medium")) {
-            numLives = 4;
-        }
+        drawLives(bundle.getString("diff"));
 
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
@@ -58,5 +53,23 @@ public class GameScreen extends AppCompatActivity {
         safeArea = findViewById(R.id.goal);
         tileRow = new TileRow(this, tileSize, R.drawable.gold, screenWidth, true);
         safeArea.setImageBitmap(tileRow.tileRow);
+    }
+
+    private void drawLives(String diff) {
+        ImageView leftLifeView = (ImageView) findViewById(R.id.leftLifeView);
+        ImageView middleLifeView = (ImageView) findViewById(R.id.middleLifeView);
+        ImageView rightLifeView = (ImageView) findViewById(R.id.rightLifeView);
+
+        switch (diff) {
+            case "Hard":
+                leftLifeView.setVisibility(View.INVISIBLE);
+            case "Medium":
+                middleLifeView.setVisibility(View.INVISIBLE);
+                break;
+            case "Easy":
+                break;
+            default:
+                throw new IllegalArgumentException("Difficulty string is invalid.");
+        }
     }
 }
