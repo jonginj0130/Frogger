@@ -1,15 +1,9 @@
 package com.example.cs2340project;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
-
-import android.app.Activity;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 public class GameScreen extends AppCompatActivity {
 
