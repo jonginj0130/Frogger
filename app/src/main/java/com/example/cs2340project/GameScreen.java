@@ -1,9 +1,12 @@
 package com.example.cs2340project;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 public class GameScreen extends AppCompatActivity {
 
@@ -11,6 +14,16 @@ public class GameScreen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_screen);
+
+        Bundle bundle = getIntent().getExtras();
+        String diff = bundle.getString("diff");
+        int numHearts = 3;
+        if (diff.equals("Easy")) {
+            numHearts = 5;
+        } else if (diff.equals("Medium")) {
+            numHearts = 4;
+        }
+        drawLives(numHearts);
 
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
@@ -49,5 +62,15 @@ public class GameScreen extends AppCompatActivity {
         safeArea = findViewById(R.id.goal);
         tileRow = new TileRow(this, tileSize, R.drawable.gold, screenWidth, true);
         safeArea.setImageBitmap(tileRow.tileRow);
+    }
+
+    public void drawLives(int lives) {
+        ImageView img;
+        int resID;
+        for (int i = 1; i <= lives; i++) {
+            resID = getResources().getIdentifier("heart" + i, "id", getPackageName());
+            img = findViewById(resID);
+            img.setImageResource(R.drawable.heart);
+        }
     }
 }
