@@ -14,13 +14,13 @@ public class TileRow {
     public TileRow(Context context, int size, int resource, int screenWidth, boolean isSafe) {
         this.numTiles = (int) Math.ceil((float) screenWidth / size);
         this.isSafe = isSafe;
-        tile = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(),
+        this.tile = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(),
                 resource), size, size, false);
 
         Bitmap merged = Bitmap.createBitmap(screenWidth, size, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(merged);
 
-        for (int i = 0; i < numTiles; i++) {
+        for (int i = 0; i <= numTiles; i++) {
             canvas.drawBitmap(tile, i * size, 0, null);
         }
         this.tileRow = merged;

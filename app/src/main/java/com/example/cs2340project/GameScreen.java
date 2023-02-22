@@ -26,10 +26,10 @@ public class GameScreen extends AppCompatActivity {
         drawLives(numHearts);
 
         ProgressBar pb = findViewById(R.id.timeBar);
-        CountDownTimer timer = new CountDownTimer(5000, 1000) {
+        CountDownTimer timer = new CountDownTimer(5000, 100) {
             @Override
             public void onTick(long millisUntilFinished) {
-                pb.setProgress((int) (millisUntilFinished / 1000));
+                pb.setProgress(Math.round(millisUntilFinished));
             }
 
             @Override
@@ -77,6 +77,7 @@ public class GameScreen extends AppCompatActivity {
         safeArea.setImageBitmap(tileRow.getTileRow());
     }
 
+    // method to draw the hearts at the top left of the screen
     public void drawLives(int lives) {
         ImageView img;
         int resID;
