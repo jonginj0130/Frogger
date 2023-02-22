@@ -10,9 +10,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
         android:gravity="center"
-        >
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/selection_title"
@@ -21,8 +20,8 @@
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="20dp"
             android:fontFamily="monospace"
-            android:text="Choose Sprite"
-            android:textSize="34sp"/>
+            android:text="Choose Character"
+            android:textSize="34sp" />
 
         <TextView
             android:id="@+id/tap_to_confirm"
@@ -38,33 +37,33 @@
             android:id="@+id/blue_frog"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="10dp"
             android:background="@color/background"
             android:padding="10dp"
-            android:layout_margin="10dp"
-            android:layout_centerHorizontal="true"
-            android:src="@drawable/blue_frog"/>
+            android:src="@drawable/blue_frog" />
 
         <ImageButton
             android:id="@+id/green_frog"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@id/green_frog"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="10dp"
             android:background="@color/background"
             android:padding="10dp"
-            android:layout_margin="10dp"
-            android:layout_centerHorizontal="true"
-            android:layout_below="@id/green_frog"
-            android:src="@drawable/green_frog"/>
+            android:src="@drawable/green_frog" />
 
         <ImageButton
             android:id="@+id/red_frog"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@id/red_frog"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="10dp"
             android:background="@color/background"
             android:padding="10dp"
-            android:layout_margin="10dp"
-            android:layout_centerHorizontal="true"
-            android:layout_below="@id/red_frog"
-            android:src="@drawable/red_frog"/>
+            android:src="@drawable/red_frog" />
 
     </LinearLayout>
 
