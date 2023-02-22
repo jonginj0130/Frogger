@@ -6,15 +6,13 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 
 public class TileRow {
-    public int tileSize;
-    public int numTiles;
-    public boolean isSafe;
-    public Bitmap tile;
-    public Bitmap tileRow;
+    private int numTiles;
+    private boolean isSafe;
+    private Bitmap tile;
+    private Bitmap tileRow;
 
     public TileRow(Context context, int size, int resource, int screenWidth, boolean isSafe) {
-        this.tileSize = size;
-        this.numTiles = (int) Math.ceil((float)screenWidth / size);
+        this.numTiles = (int) Math.ceil((float) screenWidth / size);
         this.isSafe = isSafe;
         tile = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(),
                 resource), size, size, false);
@@ -26,5 +24,13 @@ public class TileRow {
             canvas.drawBitmap(tile, i * size, 0, null);
         }
         this.tileRow = merged;
+    }
+
+    public boolean getIsSafe() {
+        return isSafe;
+    }
+
+    public Bitmap getTileRow() {
+        return tileRow;
     }
 }

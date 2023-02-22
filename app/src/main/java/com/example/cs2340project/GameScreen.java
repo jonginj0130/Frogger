@@ -2,14 +2,14 @@ package com.example.cs2340project;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.util.DisplayMetrics;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
 public class GameScreen extends AppCompatActivity {
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,6 +25,19 @@ public class GameScreen extends AppCompatActivity {
         }
         drawLives(numHearts);
 
+        ProgressBar pb = findViewById(R.id.timeBar);
+        CountDownTimer timer = new CountDownTimer(5000, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                pb.setProgress((int) (millisUntilFinished / 1000));
+            }
+
+            @Override
+            public void onFinish() {
+                Toast.makeText(GameScreen.this, "Time Over!", Toast.LENGTH_SHORT).show();
+            }
+        }.start();
+
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         int screenWidth = displayMetrics.widthPixels;
@@ -33,35 +46,35 @@ public class GameScreen extends AppCompatActivity {
         // draw river tiles onto screen
         int resID;
         TileRow tileRow;
-        int tileSize = (int) Math.round((0.30 * screenHeight)/4);
+        int tileSize = (int) Math.round((0.30 * screenHeight) / 4);
         for (int i = 1; i < 5; i++) {
             resID = getResources().getIdentifier("river" + i, "id", getPackageName());
             ImageView riverArea = findViewById(resID);
             tileRow = new TileRow(this, tileSize, R.drawable.river, screenWidth, false);
-            riverArea.setImageBitmap(tileRow.tileRow);
+            riverArea.setImageBitmap(tileRow.getTileRow());
         }
         // draw road tiles onto screen
-        tileSize = (int) Math.round((0.35 * screenHeight)/5);
+        tileSize = (int) Math.round((0.35 * screenHeight) / 5);
         for (int i = 1; i < 6; i++) {
             resID = getResources().getIdentifier("road" + i, "id", getPackageName());
             ImageView roadArea = findViewById(resID);
             tileRow = new TileRow(this, tileSize, R.drawable.road, screenWidth, true);
-            roadArea.setImageBitmap(tileRow.tileRow);
+            roadArea.setImageBitmap(tileRow.getTileRow());
         }
         // draw start tile onto screen
         tileSize = (int) Math.round((0.0833 * screenHeight));
         ImageView safeArea = findViewById(R.id.start);
         tileRow = new TileRow(this, tileSize, R.drawable.grass, screenWidth, true);
-        safeArea.setImageBitmap(tileRow.tileRow);
+        safeArea.setImageBitmap(tileRow.getTileRow());
 
         //draw rest tile onto screen
         safeArea = findViewById(R.id.rest);
-        safeArea.setImageBitmap(tileRow.tileRow);
+        safeArea.setImageBitmap(tileRow.getTileRow());
 
         //draw goal tile onto screen
         safeArea = findViewById(R.id.goal);
         tileRow = new TileRow(this, tileSize, R.drawable.gold, screenWidth, true);
-        safeArea.setImageBitmap(tileRow.tileRow);
+        safeArea.setImageBitmap(tileRow.getTileRow());
     }
 
     public void drawLives(int lives) {
