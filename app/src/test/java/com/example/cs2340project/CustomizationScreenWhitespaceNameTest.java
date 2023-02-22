@@ -5,11 +5,11 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 // JUNIT TEST BY SAGAR SADAK
-public class CustomizationScreenNullNameTest {
+public class CustomizationScreenWhitespaceNameTest {
 
     @Test
     public void checkNameValidity() {
-        String testString = null;
+        String testString = "     ";
         assertFalse(CustomizationScreen.checkNameValidity(testString));
     }
 }
