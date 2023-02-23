@@ -11,18 +11,24 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 public class CustomizationScreen extends AppCompatActivity {
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_customization_screen);
     }
 
+    public static boolean checkNameValidity(String name) {
+        if (name == null) {
+            return false;
+        }
+        return !name.trim().equals("");
+    }
     public void onPlayBtnClick(View view) {
         TextView playerName = findViewById(R.id.playerName);
-        String name = playerName.getText().toString().trim();
+        String name = playerName.getText().toString();
+        boolean nameValid = checkNameValidity(name);
 
-        if (name.isEmpty()) {
+        if (!nameValid) {
             playerName.setError("Please enter a name");
         } else {
             Intent intent = new Intent(CustomizationScreen.this, SpriteSelectionScreen.class);
