@@ -95,7 +95,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toTopOf="@+id/riverArea"
             app:layout_constraintTop_toBottomOf="@+id/topArea"
-            app:layout_constraintHeight_percent="0.0833" >
+            app:layout_constraintHeight_percent="0.075" >
 
             <ImageView
                 android:id="@+id/goal"
@@ -173,7 +173,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/riverArea"
             app:layout_constraintBottom_toTopOf="@+id/roadArea"
-            app:layout_constraintHeight_percent="0.0833" >
+            app:layout_constraintHeight_percent="0.075" >
             <ImageView
                 android:id="@+id/rest"
                 android:layout_width="match_parent"
@@ -195,7 +195,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/restArea"
             app:layout_constraintBottom_toTopOf="@+id/startArea"
-            app:layout_constraintHeight_percent="0.35" >
+            app:layout_constraintHeight_percent="0.375" >
 
                 <ImageView
                     android:id="@+id/road5"
@@ -262,7 +262,7 @@
             app:layout_constraintTop_toBottomOf="@id/roadArea"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintHeight_percent="0.0833" >
+            app:layout_constraintHeight_percent="0.075" >
             <ImageView
                 android:id="@+id/start"
                 android:layout_width="match_parent"
@@ -304,8 +304,8 @@
                 app:layout_constraintWidth_percent="0.56"
                 android:layout_height="0dp"
                 app:layout_constraintHeight_percent="0.70"
-                android:max="5"
-                android:progress="5"
+                android:max="5000"
+                android:progress="5000"
                 app:layout_constraintStart_toEndOf="@id/timeText"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
