@@ -10,7 +10,6 @@ public class Frog {
     Bitmap frog;
     int posx, posy;
     int spriteColor, width, height;
-    Display display;
 
     public Frog(int spriteColor, Context context, double screenWidthRatio, double screenHeightRatio) {
         this.context = context;
@@ -28,10 +27,5 @@ public class Frog {
     public Bitmap getFrog() {
         return frog;
     }
-
-    public int getFrogWidth() {
-        return frog.getWidth();
-    }
-
 
 }

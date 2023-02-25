@@ -2,6 +2,7 @@ package com.example.cs2340project;
 
 import android.app.Activity;
 import android.content.Context;
+import android.gesture.Gesture;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -13,10 +14,16 @@ import android.os.CountDownTimer;
 import android.os.Handler;
 import android.util.DisplayMetrics;
 import android.view.Display;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
 
 public class GameView extends View implements Runnable {
     Context context; // context required to access resources
@@ -28,6 +35,8 @@ public class GameView extends View implements Runnable {
     int points = 0;
     boolean paused = false;
     Frog frog;
+    double screenWidthRatio = 0.143;
+    double screenHeightRatio = 0.0714;
     public GameView(Context context, Bundle bundle) {
         super(context);
         this.context = context;
@@ -39,8 +48,6 @@ public class GameView extends View implements Runnable {
         this.screenWidth = size.x;
         this.screenHeight = size.y;
 
-        double screenWidthRatio = 0.143;
-        double screenHeightRatio = 0.0714;
 
         int spriteColor = bundle.getInt("spriteColor"); // Accessing from bundle
         this.frog = new Frog(spriteColor, context, screenWidthRatio, screenHeightRatio);
@@ -48,14 +55,15 @@ public class GameView extends View implements Runnable {
 
         lifeImage = BitmapFactory.decodeResource(context.getResources(), R.drawable.heart); // Creates Bitmap
         lifeImage = Bitmap.createScaledBitmap(lifeImage, (int) (screenHeight * 0.05), (int) (screenHeight * 0.05), false); // Scales Bitmap
-        riverTile = BitmapFactory.decodeResource(context.getResources(), R.drawable.river);
-        riverTile = Bitmap.createScaledBitmap(riverTile, (int) (screenWidth * screenWidthRatio), (int) (screenHeight * screenHeightRatio), false);
-        goalTile = BitmapFactory.decodeResource(context.getResources(), R.drawable.gold);
-        goalTile = Bitmap.createScaledBitmap(goalTile, (int) (screenWidth * screenWidthRatio), (int) (screenHeight * screenHeightRatio), false);
-        roadTile = BitmapFactory.decodeResource(context.getResources(), R.drawable.road);
-        roadTile = Bitmap.createScaledBitmap(roadTile, (int) (screenWidth * screenWidthRatio), (int) (screenHeight * screenHeightRatio), false);
-        safeTile = BitmapFactory.decodeResource(context.getResources(), R.drawable.grass);
-        safeTile = Bitmap.createScaledBitmap(safeTile, (int) (screenWidth * screenWidthRatio), (int) (screenHeight * screenHeightRatio), false);
+        riverTile = new Tile(context, (int) (screenWidth * screenWidthRatio),
+                (int) (screenHeight * screenHeightRatio), R.drawable.river, false).getTile();
+        goalTile = new Tile(context, (int) (screenWidth * screenWidthRatio),
+                (int) (screenHeight * screenHeightRatio), R.drawable.gold, false).getTile();
+        roadTile = new Tile(context, (int) (screenWidth * screenWidthRatio),
+                (int) (screenHeight * screenHeightRatio), R.drawable.road, false).getTile();
+        safeTile = new Tile(context, (int) (screenWidth * screenWidthRatio),
+                (int) (screenHeight * screenHeightRatio), R.drawable.grass, false).getTile();
+
         // sets # of lives
         String diff = bundle.getString("diff");
         if (diff.equals("Easy")) {
@@ -85,6 +93,18 @@ public class GameView extends View implements Runnable {
         drawBackground(canvas);
         drawFrogAtStart(canvas);
 
+        if (!paused) {
+            handler.postDelayed(this, UPDATE_MILLIS);
+        }
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            float x1 = event.getX();
+            float y1 = event.getY();
+        }
+        return true;
     }
 
     // Function that draws background with lives and tiles.
