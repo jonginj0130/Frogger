@@ -10,11 +10,9 @@ public class Frog {
     Bitmap frog;
     int posx, posy;
     int spriteColor, width, height;
-<<<<<<< HEAD
-=======
+
     Display display;
     boolean isUp = false, isDown = false, isLeft = false, isRight = false;
->>>>>>> 04ca6ade0cb747678aec2dafbf5afc29b3e8853e
 
     public Frog(int spriteColor, Context context, double screenWidthRatio, double screenHeightRatio) {
         this.context = context;
@@ -24,7 +22,6 @@ public class Frog {
         this.width = (int) (GameView.screenWidth * screenWidthRatio); // should be the same as height as it should be a square
 
         this.frog = Bitmap.createScaledBitmap(frog, width, height, false);
-
         this.posx = 3 * width;
         this.posy = (int) (GameView.screenHeight * 0.05 + GameView.screenHeight * screenHeightRatio * 12 - height);
     }
