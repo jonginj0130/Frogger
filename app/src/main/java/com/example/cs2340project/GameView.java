@@ -78,6 +78,11 @@ public class GameView extends View implements Runnable {
         scorePaint.setTextSize((float) ();
         scorePaint. setTextAlign(Paint.Align.LEFT);
         canvas.drawText("Lives: ", 0, (float) (screenHeight * 0.0714), scorePaint);*/
+        drawBackground(canvas);
+    }
+
+    // Function that draws background with lives and tiles.
+    private void drawBackground(Canvas canvas) {
         for (int i = life; i > 0; i--) {
             canvas.drawBitmap(lifeImage,
                     this.screenWidth - lifeImage.getWidth() * i, 0,null);
@@ -114,7 +119,6 @@ public class GameView extends View implements Runnable {
                     safeTile.getWidth() * i, top,null);
         }
         top += (int) Math.ceil(screenHeight * 0.0714);
-
     }
 
 }
