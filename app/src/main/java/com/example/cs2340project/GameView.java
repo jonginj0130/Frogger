@@ -14,7 +14,10 @@ import android.os.CountDownTimer;
 import android.os.Handler;
 import android.util.DisplayMetrics;
 import android.view.Display;
+<<<<<<< HEAD
 import android.view.GestureDetector;
+=======
+>>>>>>> 04ca6ade0cb747678aec2dafbf5afc29b3e8853e
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -23,7 +26,11 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+<<<<<<< HEAD
 import androidx.annotation.NonNull;
+=======
+import androidx.constraintlayout.widget.ConstraintSet;
+>>>>>>> 04ca6ade0cb747678aec2dafbf5afc29b3e8853e
 
 public class GameView extends View implements Runnable {
     Context context; // context required to access resources
@@ -31,9 +38,11 @@ public class GameView extends View implements Runnable {
     Handler handler; // Utilized to _____
     long UPDATE_MILLIS = 30; // Time Frame to update the view
     static int screenWidth, screenHeight;
+    static double screenWidthRatio, screenHeightRatio;
     int life;
     int points = 0;
     boolean paused = false;
+
     Frog frog;
     double screenWidthRatio = 0.143;
     double screenHeightRatio = 0.0714;
@@ -48,6 +57,11 @@ public class GameView extends View implements Runnable {
         this.screenWidth = size.x;
         this.screenHeight = size.y;
 
+<<<<<<< HEAD
+=======
+        screenWidthRatio = 0.143;
+        screenHeightRatio = 0.0714;
+>>>>>>> 04ca6ade0cb747678aec2dafbf5afc29b3e8853e
 
         int spriteColor = bundle.getInt("spriteColor"); // Accessing from bundle
         this.frog = new Frog(spriteColor, context, screenWidthRatio, screenHeightRatio);
@@ -96,6 +110,7 @@ public class GameView extends View implements Runnable {
         if (!paused) {
             handler.postDelayed(this, UPDATE_MILLIS);
         }
+<<<<<<< HEAD
     }
 
     @Override
@@ -105,6 +120,9 @@ public class GameView extends View implements Runnable {
             float y1 = event.getY();
         }
         return true;
+=======
+
+>>>>>>> 04ca6ade0cb747678aec2dafbf5afc29b3e8853e
     }
 
     // Function that draws background with lives and tiles.
@@ -150,5 +168,38 @@ public class GameView extends View implements Runnable {
     private void drawFrogAtStart(Canvas canvas) {
         canvas.drawBitmap(frog.getFrog(), frog.posx, frog.posy, null);
     }
-
+    public boolean onTouchEvent(MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            if (event.getY() < screenHeight * 0.333) {
+                //move up
+                frog.posy -= screenHeight * screenHeightRatio;
+                if (frog.posy < screenHeight * 0.05) {
+                    frog.posy = (int) (GameView.screenHeight * 0.05);
+                }
+            } else if (event.getY() > screenHeight * 0.666) {
+                //move down
+                frog.posy += screenHeight * screenHeightRatio;
+                if (frog.posy > (GameView.screenHeight * 0.05 + GameView.screenHeight
+                        * screenHeightRatio * 12 - frog.height)) {
+                    frog.posy = (int) (GameView.screenHeight * 0.05 + GameView.screenHeight
+                            * screenHeightRatio * 12 - frog.height);
+                }
+            } else {
+                if (event.getX() < screenWidth / 2) {
+                    //move left
+                    frog.posx -= frog.width;
+                    if (frog.posx < 0) {
+                        frog.posx = 0;
+                    }
+                } else {
+                    //move right
+                    frog.posx += frog.width;
+                    if (frog.posx > screenWidth - frog.width) {
+                        frog.posx = screenWidth - frog.width;
+                    }
+                }
+            }
+        }
+        return true;
+    }
 }
