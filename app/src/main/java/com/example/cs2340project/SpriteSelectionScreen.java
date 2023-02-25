@@ -26,7 +26,7 @@ public class SpriteSelectionScreen extends AppCompatActivity {
 
     public void onBtnClick(int color, ImageButton frogClicked) {
         if (frogClicked.equals(spriteSelected)) {
-            Intent intent = new Intent(SpriteSelectionScreen.this, GameScreen.class);
+            Intent intent = new Intent(SpriteSelectionScreen.this, GameActivity.class);
             Bundle bundle = getIntent().getExtras();
 
             //specific sprite is an int because R.drawable.x is an id
