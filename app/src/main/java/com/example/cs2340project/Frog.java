@@ -12,19 +12,25 @@ public class Frog {
     int spriteColor, width, height;
     Display display;
 
-    public Frog(int spriteColor, Context context) {
+    public Frog(int spriteColor, Context context, double screenWidthRatio, double screenHeightRatio) {
         this.context = context;
         this.spriteColor = spriteColor; // R.drawable.x is an ID that is an Integer Type
         this.frog = BitmapFactory.decodeResource(context.getResources(), spriteColor);
-        this.height = (int) (GameView.screenHeight * 0.075); //should be 0.075 * total screenHeight
-        this.width = (int) (GameView.screenWidth * 0.075); // should be the same as height as it should be a square
+        this.height = (int) (GameView.screenWidth * screenWidthRatio); //should be 0.075 * total screenHeight
+        this.width = (int) (GameView.screenWidth * screenWidthRatio); // should be the same as height as it should be a square
 
-        this.posx = GameView.screenWidth / 2;
-        this.posy = GameView.screenHeight - this.height - 1;
+        this.frog = Bitmap.createScaledBitmap(frog, width, height, false);
+
+        this.posx = 3 * width;
+        this.posy = (int) (GameView.screenHeight * 0.05 + GameView.screenHeight * screenHeightRatio * 12 - height);
     }
 
     public Bitmap getFrog() {
         return frog;
+    }
+
+    public int getFrogWidth() {
+        return frog.getWidth();
     }
 
 

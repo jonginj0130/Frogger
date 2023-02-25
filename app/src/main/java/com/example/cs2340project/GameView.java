@@ -27,7 +27,6 @@ public class GameView extends View implements Runnable {
     int life;
     int points = 0;
     boolean paused = false;
-
     Frog frog;
     public GameView(Context context, Bundle bundle) {
         super(context);
@@ -40,19 +39,23 @@ public class GameView extends View implements Runnable {
         this.screenWidth = size.x;
         this.screenHeight = size.y;
 
+        double screenWidthRatio = 0.143;
+        double screenHeightRatio = 0.0714;
+
         int spriteColor = bundle.getInt("spriteColor"); // Accessing from bundle
-        Frog frog = new Frog(spriteColor, context);
+        this.frog = new Frog(spriteColor, context, screenWidthRatio, screenHeightRatio);
+
 
         lifeImage = BitmapFactory.decodeResource(context.getResources(), R.drawable.heart); // Creates Bitmap
         lifeImage = Bitmap.createScaledBitmap(lifeImage, (int) (screenHeight * 0.05), (int) (screenHeight * 0.05), false); // Scales Bitmap
         riverTile = BitmapFactory.decodeResource(context.getResources(), R.drawable.river);
-        riverTile = Bitmap.createScaledBitmap(riverTile, (int) (screenWidth * 0.0833), (int) (screenHeight * 0.0714), false);
+        riverTile = Bitmap.createScaledBitmap(riverTile, (int) (screenWidth * screenWidthRatio), (int) (screenHeight * screenHeightRatio), false);
         goalTile = BitmapFactory.decodeResource(context.getResources(), R.drawable.gold);
-        goalTile = Bitmap.createScaledBitmap(goalTile, (int) (screenWidth * 0.0833), (int) (screenHeight * 0.0714), false);
+        goalTile = Bitmap.createScaledBitmap(goalTile, (int) (screenWidth * screenWidthRatio), (int) (screenHeight * screenHeightRatio), false);
         roadTile = BitmapFactory.decodeResource(context.getResources(), R.drawable.road);
-        roadTile = Bitmap.createScaledBitmap(roadTile, (int) (screenWidth * 0.0833), (int) (screenHeight * 0.0714), false);
+        roadTile = Bitmap.createScaledBitmap(roadTile, (int) (screenWidth * screenWidthRatio), (int) (screenHeight * screenHeightRatio), false);
         safeTile = BitmapFactory.decodeResource(context.getResources(), R.drawable.grass);
-        safeTile = Bitmap.createScaledBitmap(safeTile, (int) (screenWidth * 0.0833), (int) (screenHeight * 0.0714), false);
+        safeTile = Bitmap.createScaledBitmap(safeTile, (int) (screenWidth * screenWidthRatio), (int) (screenHeight * screenHeightRatio), false);
         // sets # of lives
         String diff = bundle.getString("diff");
         if (diff.equals("Easy")) {
@@ -78,7 +81,10 @@ public class GameView extends View implements Runnable {
         scorePaint.setTextSize((float) ();
         scorePaint. setTextAlign(Paint.Align.LEFT);
         canvas.drawText("Lives: ", 0, (float) (screenHeight * 0.0714), scorePaint);*/
+
         drawBackground(canvas);
+        drawFrogAtStart(canvas);
+
     }
 
     // Function that draws background with lives and tiles.
@@ -119,6 +125,10 @@ public class GameView extends View implements Runnable {
                     safeTile.getWidth() * i, top,null);
         }
         top += (int) Math.ceil(screenHeight * 0.0714);
+    }
+
+    private void drawFrogAtStart(Canvas canvas) {
+        canvas.drawBitmap(frog.getFrog(), frog.posx, frog.posy, null);
     }
 
 }
