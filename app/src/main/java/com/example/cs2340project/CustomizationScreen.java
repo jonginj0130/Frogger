@@ -16,7 +16,7 @@ public class CustomizationScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_customization_screen);
     }
-
+    
     public static boolean checkNameValidity(String name) {
         if (name == null) {
             return false;
