@@ -12,6 +12,9 @@ import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
 
+import org.jetbrains.annotations.TestOnly;
+import org.junit.Test;
+
 public class GameView extends View implements Runnable {
     Context context; // context required to access resources
     Bitmap lifeImage, riverTile, goalTile, roadTile, safeTile; // riverTile, goalTile, roadTile, and safeTile to be added.
@@ -159,4 +162,10 @@ public class GameView extends View implements Runnable {
     private void drawFrogAtStart(Canvas canvas) {
         canvas.drawBitmap(frog.getFrog(), frog.posx, frog.posy, null);
     }
+
+    @Test
+    public void numLivesBasedOnDiff() {
+
+    }
+
 }
