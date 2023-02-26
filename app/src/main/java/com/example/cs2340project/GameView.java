@@ -163,9 +163,4 @@ public class GameView extends View implements Runnable {
         canvas.drawBitmap(frog.getFrog(), frog.posx, frog.posy, null);
     }
 
-    @Test
-    public void numLivesBasedOnDiff() {
-
-    }
-
 }
