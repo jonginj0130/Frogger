@@ -34,7 +34,7 @@ public class Frog {
         this.spriteColor = spriteColor;
         switch (spriteColor) {
             case 0:
-                color = "ç";
+                color = "green";
                 break;
             case 1:
                 color = "blue";
