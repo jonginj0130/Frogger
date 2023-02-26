@@ -11,16 +11,17 @@ import org.junit.runner.RunWith;
 import static org.junit.Assert.*;
 
 /**
- * Instrumented test, which will execute on an Android device.
+ * NotUIContextTest verifies that the app's primary context is not wrongly
+ * created as a UI context.
  *
- * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
+ * Made by Race Williams.
  */
 @RunWith(AndroidJUnit4.class)
-public class ExampleInstrumentedTest {
+public class NotUIContextTest {
     @Test
     public void useAppContext() {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        assertEquals("com.example.cs2340project", appContext.getPackageName());
+        assertEquals(false, appContext.isUiContext());
     }
 }
