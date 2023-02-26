@@ -13,3 +13,5 @@ public class CustomizationScreenNullNameTest {
         assertFalse(CustomizationScreen.checkNameValidity(testString));
     }
 }
+
+

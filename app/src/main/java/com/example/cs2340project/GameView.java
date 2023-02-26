@@ -21,8 +21,8 @@ public class GameView extends View implements Runnable {
     Handler handler; // Utilized to _____
     long UPDATE_MILLIS = 30; // Time Frame to update the view
     static int screenWidth, screenHeight;
-    double screenWidthRatio = 0.143;
-    double screenHeightRatio = 0.0714;
+    static double screenWidthRatio = 0.143;
+    static double screenHeightRatio = 0.0714;
     int life;
     int points = 0;
     boolean paused = false;
