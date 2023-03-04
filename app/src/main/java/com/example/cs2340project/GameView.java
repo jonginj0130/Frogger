@@ -5,29 +5,36 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.graphics.Point;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
 
-import org.jetbrains.annotations.TestOnly;
-import org.junit.Test;
-
 public class GameView extends View implements Runnable {
-    Context context; // context required to access resources
-    Bitmap lifeImage, riverTile, goalTile, roadTile, safeTile; // riverTile, goalTile, roadTile, and safeTile to be added.
-    Handler handler; // Utilized to _____
-    long UPDATE_MILLIS = 30; // Time Frame to update the view
-    static int screenWidth, screenHeight;
+    private Context context; // context required to access resources
+    private Bitmap lifeImage;
+    private Bitmap riverTile;
+    private Bitmap goalTile;
+    private Bitmap roadTile;
+    private Bitmap safeTile;
+    // riverTile, goalTile, roadTile, and safeTile to be added.
+    private Handler handler; // Utilized to _____
+    private long updateMillis = 30; // Time Frame to update the view
+    static int screenWidth;
+    static int screenHeight;
     static double screenWidthRatio = 0.143;
     static double screenHeightRatio = 0.0714;
-    int life;
-    int points = 0;
-    boolean paused = false;
+    private int life;
+    private Score score;
+    private int points = 0;
+    private Paint scorePaint = new Paint();
+    private boolean paused = false;
 
-    Frog frog;
+    private Frog frog;
     public GameView(Context context, Bundle bundle) {
         super(context);
         this.context = context;
@@ -35,6 +42,11 @@ public class GameView extends View implements Runnable {
         Display display = ((Activity) getContext()).getWindowManager().getDefaultDisplay();
         Point size = new Point(); // stores the x (width) and y (height) coordinates of the display of the device
         display.getSize(size); // size now contains the x and y of the display of the device
+
+        scorePaint.setTextSize(100);
+        scorePaint.setTypeface(Typeface.MONOSPACE);
+
+        this.score = new Score();
 
         this.screenWidth = size.x;
         this.screenHeight = size.y;
@@ -54,12 +66,11 @@ public class GameView extends View implements Runnable {
 
         // sets # of lives
         String diff = bundle.getString("diff");
+        this.life = 3;
         if (diff.equals("Easy")) {
             this.life = 5;
         } else if (diff.equals("Medium")) {
             this.life = 4;
-        } else {
-            this.life = 3;
         }
         handler = new Handler();
     }
@@ -70,17 +81,12 @@ public class GameView extends View implements Runnable {
 
     @Override
     protected void onDraw(Canvas canvas) {
-/*        Paint scorePaint = new Paint();
-        scorePaint.setColor(Color.BLACK);
-        scorePaint.setTextSize((float) ();
-        scorePaint. setTextAlign(Paint.Align.LEFT);
-        canvas.drawText("Lives: ", 0, (float) (screenHeight * 0.0714), scorePaint);*/
-
         drawBackground(canvas);
         drawFrogAtStart(canvas);
+        updateScore(canvas);
 
         if (!paused) {
-            handler.postDelayed(this, UPDATE_MILLIS);
+            handler.postDelayed(this, updateMillis);
         }
     }
 
@@ -93,6 +99,13 @@ public class GameView extends View implements Runnable {
                 if (frog.posy < screenHeight * 0.05) {
                     frog.posy = (int) (GameView.screenHeight * 0.05);
                 }
+                score.increaseTilePassed();
+                if (score.getTilesPassed() > 10) {
+                    score = new Score();
+                    points = 200;
+                } else {
+                    points = Math.max(points, score.getScore());
+                }
             } else if (event.getY() > screenHeight * 0.666) {
                 //move down
                 frog.posy += screenHeight * screenHeightRatio;
@@ -100,6 +113,8 @@ public class GameView extends View implements Runnable {
                         * screenHeightRatio * 12 - frog.height)) {
                     frog.posy = (int) (GameView.screenHeight * 0.05 + GameView.screenHeight
                             * screenHeightRatio * 12 - frog.height);
+                } else {
+                    score.decreaseTilePassed();
                 }
             } else {
                 if (event.getX() < screenWidth / 2) {
@@ -118,6 +133,11 @@ public class GameView extends View implements Runnable {
             }
         }
         return true;
+    }
+
+    // function that updates score on screen
+    private void updateScore(Canvas canvas) {
+        canvas.drawText("Score:" + points, 2, 90, scorePaint);
     }
     // Function that draws background with lives and tiles.
     private void drawBackground(Canvas canvas) {
