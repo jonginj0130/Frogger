@@ -27,6 +27,7 @@ public class Tile {
         this.width = width;
         this.height = height;
         this.isSafe = isSafe;
+        this.tileID = tileID;
     }
 
     public Bitmap getTile() {
