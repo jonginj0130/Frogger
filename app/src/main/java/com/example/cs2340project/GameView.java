@@ -14,6 +14,8 @@ import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
 
+import java.util.Random;
+
 public class GameView extends View implements Runnable {
     private Context context; // context required to access resources
     private Bitmap lifeImage;
@@ -33,6 +35,10 @@ public class GameView extends View implements Runnable {
     private int points = 0;
     private Paint scorePaint = new Paint();
     private boolean paused = false;
+
+    private Vehicle vehicles;
+
+    private Random random;
 
     private Frog frog;
     public GameView(Context context, Bundle bundle) {
@@ -64,6 +70,8 @@ public class GameView extends View implements Runnable {
         safeTile = new Tile(context, (int) (screenWidth * screenWidthRatio),
                 (int) (screenHeight * screenHeightRatio), R.drawable.grass, false).getTile();
 
+        this.vehicles = new Vehicle(context, screenWidthRatio, screenHeightRatio, lifeImage.getHeight());
+
         // sets # of lives
         String diff = bundle.getString("diff");
         this.life = 3;
@@ -84,9 +92,21 @@ public class GameView extends View implements Runnable {
         drawBackground(canvas);
         drawFrogAtStart(canvas);
         updateScore(canvas);
+        drawVehicleAtStart(canvas);
 
         if (!paused) {
             handler.postDelayed(this, updateMillis);
+
+            vehicles.posx1 += vehicles.speed;
+            vehicles.posx2 -= vehicles.speed;
+            vehicles.posx3 += vehicles.speed;
+            vehicles.posx4 -= vehicles.speed;
+
+            if (vehicles.posx1 + vehicles.width > screenWidth) {
+                vehicles.speed = -(vehicles.speed);
+            } else if (vehicles.posx1 < 0) {
+                vehicles.speed = -(vehicles.speed);
+            }
         }
     }
 
@@ -181,6 +201,13 @@ public class GameView extends View implements Runnable {
 
     private void drawFrogAtStart(Canvas canvas) {
         canvas.drawBitmap(frog.getFrog(), frog.posx, frog.posy, null);
+    }
+
+    private void drawVehicleAtStart(Canvas canvas) {
+        canvas.drawBitmap(vehicles.getVehicle1(), vehicles.posx1, vehicles.posy1, null);
+        canvas.drawBitmap(vehicles.getVehicle2(), vehicles.posx2, vehicles.posy2, null);
+        canvas.drawBitmap(vehicles.getVehicle3(), vehicles.posx3, vehicles.posy3, null);
+        canvas.drawBitmap(vehicles.getVehicle4(), vehicles.posx4, vehicles.posy4, null);
     }
 
 }

@@ -77,6 +77,7 @@ public class GameScreen extends AppCompatActivity {
         ImageView goalArea = findViewById(R.id.goal);
         tileRow = new TileRow(this, R.drawable.gold, screenHeight, screenWidth, true);
         goalArea.setImageBitmap(tileRow.getTileRow());
+
     }
 
     // method to draw the hearts at the top left of the screen
