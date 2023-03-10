@@ -63,7 +63,22 @@ public class Vehicle {
         this.posy3 = (float) ((GameView.screenHeight * 0.0714 * 7) + lifeHeight);
         this.posx4 = GameView.screenWidth - width;
         this.posy4 = (float) ((GameView.screenHeight * 0.0714 * 6) + lifeHeight);
+    }
 
+    Vehicle (double screenWidthRatio, double screenHeightRatio, float lifeHeight) {
+
+        this.height = (int) (GameView.screenWidth * screenWidthRatio); //should be 0.075 * total screenHeight
+        this.width = (int) (GameView.screenWidth * screenWidthRatio); // should be the same as height as it should be a square
+        this.lifeHeight = (int) lifeHeight;
+
+        this.posx1 = 0;
+        this.posy1 = (float) ((GameView.screenHeight * 0.0714 * 9) + lifeHeight);
+        this.posx2 = GameView.screenWidth - width;
+        this.posy2 = (float) ((GameView.screenHeight * 0.0714 * 8) + lifeHeight);
+        this.posx3 = 0;
+        this.posy3 = (float) ((GameView.screenHeight * 0.0714 * 7) + lifeHeight);
+        this.posx4 = GameView.screenWidth - width;
+        this.posy4 = (float) ((GameView.screenHeight * 0.0714 * 6) + lifeHeight);
     }
 
 }
