@@ -14,6 +14,8 @@ import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Random;
 
 public class GameView extends View implements Runnable {
@@ -36,10 +38,18 @@ public class GameView extends View implements Runnable {
     private Paint scorePaint = new Paint();
     private boolean paused = false;
 
-    private Vehicle vehicles;
+    /*
+         [
+    row0   [Vehicle, Vehicle]
+    row1   [Vehicle, Vehicle]
+    row2   [Vehicle, Vehicle]
+    row3   [Vehicle, Vehicle]
+    row4   [Vehicle, Vehicle]
+         ]
+     */
+    private ArrayList<Vehicle>[] vehicles = new ArrayList[5];
 
     private Random random;
-
     private Frog frog;
     public GameView(Context context, Bundle bundle) {
         super(context);
@@ -70,7 +80,8 @@ public class GameView extends View implements Runnable {
         safeTile = new Tile(context, (int) (screenWidth * screenWidthRatio),
                 (int) (screenHeight * screenHeightRatio), R.drawable.grass, false).getTile();
 
-        this.vehicles = new Vehicle(context, screenWidthRatio, screenHeightRatio, lifeImage.getHeight());
+        // initializing vehicles. Refer to this function to modify vehicles.
+        initializeVehicles();
 
         // sets # of lives
         String diff = bundle.getString("diff");
@@ -96,16 +107,11 @@ public class GameView extends View implements Runnable {
 
         if (!paused) {
             handler.postDelayed(this, updateMillis);
-
-            vehicles.posx1 += vehicles.speed;
-            vehicles.posx2 -= vehicles.speed;
-            vehicles.posx3 += vehicles.speed;
-            vehicles.posx4 -= vehicles.speed;
-
-            if (vehicles.posx1 + vehicles.width > screenWidth) {
-                vehicles.speed = -(vehicles.speed);
-            } else if (vehicles.posx1 < 0) {
-                vehicles.speed = -(vehicles.speed);
+            boolean isRight = true;
+            for (ArrayList<Vehicle> rowVehicles : vehicles) {
+                for (Vehicle vehicle : rowVehicles)
+                    moveVehicle(vehicle, isRight);
+                isRight = !isRight;
             }
         }
     }
@@ -199,15 +205,69 @@ public class GameView extends View implements Runnable {
         top += (int) Math.ceil(screenHeight * 0.0714);
     }
 
+    // Private function used to set up vehicles
+    private void initializeVehicles() {
+
+        int tileWidth = (int) (screenWidth * screenWidthRatio);
+        int tileHeight = (int) (screenHeight * screenHeightRatio);
+        // Initializing ArrayList
+        for (int i = 0; i < 5; i++) {
+            vehicles[i] = new ArrayList<Vehicle>();
+        }
+
+        Vehicle vehicle0 = new Vehicle(context, R.drawable.police_car, tileWidth,
+                (int) (tileHeight * 0.8), 0,
+                (float) ((GameView.screenHeight * 0.0714 * 6) + lifeImage.getHeight() + (tileHeight / 8)),
+                20);
+        Vehicle vehicle1 = new Vehicle(context, R.drawable.police_car, tileWidth,
+                (int) (tileHeight * 0.8), 4 * tileWidth,
+                (float) ((GameView.screenHeight * 0.0714 * 6) + lifeImage.getHeight() + (tileHeight / 8)), 20);
+        Vehicle vehicle2 = new Vehicle(context, R.drawable.red_car, tileWidth,
+                (int) (tileHeight * 0.8), GameView.screenWidth,
+                (float) ((GameView.screenHeight * 0.0714 * 7) + lifeImage.getHeight() + (tileHeight / 8)),
+                20);
+        Vehicle vehicle3 = new Vehicle(context, R.drawable.big_truck, tileWidth * 2,
+                (int) (tileHeight * 0.8), 0,
+                (float) ((GameView.screenHeight * 0.0714 * 8) + lifeImage.getHeight() + (tileHeight / 8)),
+                15);
+        Vehicle vehicle4 = new Vehicle(context, R.drawable.small_truck, (int) (tileWidth * 1.5),
+                (int) (tileHeight * 0.8), GameView.screenWidth,
+                (float) ((GameView.screenHeight * 0.0714 * 9) + lifeImage.getHeight()) + (tileHeight / 8),
+                15);
+        Vehicle vehicle5 = new Vehicle(context, R.drawable.police_car, tileWidth,
+                (int) (tileHeight * 0.8), 2 * tileWidth,
+                (float) ((GameView.screenHeight * 0.0714 * 10) + lifeImage.getHeight()) + (tileHeight / 8),
+                8);
+        // Adding each vehicle to the arraylist Vehicles
+        vehicles[0].add(vehicle0);
+        vehicles[0].add(vehicle1);
+        vehicles[1].add(vehicle2);
+        vehicles[2].add(vehicle3);
+        vehicles[3].add(vehicle4);
+        vehicles[4].add(vehicle5);
+    }
+    private void moveVehicle(Vehicle vehicle, Boolean isRight) {
+        if (isRight) {
+            vehicle.posx += vehicle.speed;
+            if (vehicle.posx >= screenWidth) {
+                vehicle.posx = -vehicle.width;
+            }
+        } else {
+            vehicle.posx -= vehicle.speed;
+            if (vehicle.posx <= -vehicle.width) {
+                vehicle.posx = screenWidth;
+            }
+        }
+    }
+
     private void drawFrogAtStart(Canvas canvas) {
         canvas.drawBitmap(frog.getFrog(), frog.posx, frog.posy, null);
     }
 
     private void drawVehicleAtStart(Canvas canvas) {
-        canvas.drawBitmap(vehicles.getVehicle1(), vehicles.posx1, vehicles.posy1, null);
-        canvas.drawBitmap(vehicles.getVehicle2(), vehicles.posx2, vehicles.posy2, null);
-        canvas.drawBitmap(vehicles.getVehicle3(), vehicles.posx3, vehicles.posy3, null);
-        canvas.drawBitmap(vehicles.getVehicle4(), vehicles.posx4, vehicles.posy4, null);
+        for (ArrayList<Vehicle> rowVehicles : vehicles) {
+            for(Vehicle vehicle : rowVehicles)
+                canvas.drawBitmap(vehicle.getVehicle(), vehicle.posx, vehicle.posy, null);
+        }
     }
-
 }
