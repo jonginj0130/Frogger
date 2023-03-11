@@ -37,11 +37,12 @@ public class Vehicle {
     }
 
     // for testing purpose
-    Vehicle (double screenWidthRatio, double screenHeightRatio, float lifeHeight) {
+    Vehicle (double screenWidthRatio, double screenHeightRatio, float lifeHeight, int speed) {
 
-        this.height = (int) (GameView.screenWidth * screenWidthRatio); //should be 0.075 * total screenHeight
+        this.height = (int) (GameView.screenWidth * screenHeightRatio); //should be 0.075 * total screenHeight
         this.width = (int) (GameView.screenWidth * screenWidthRatio); // should be the same as height as it should be a square
         this.lifeHeight = (int) lifeHeight;
+        this.speed = speed;
         this.posx = 0;
         this.posy = (float) ((GameView.screenHeight * 0.0714 * 9) + lifeHeight);
     }
