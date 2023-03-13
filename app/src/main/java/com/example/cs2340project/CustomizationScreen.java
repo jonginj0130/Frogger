@@ -39,7 +39,11 @@ public class CustomizationScreen extends AppCompatActivity {
             // get checked radio button and put into bundle
             RadioGroup radioGroup = findViewById(R.id.radioGroup);
             RadioButton checkedButton = findViewById(radioGroup.getCheckedRadioButtonId());
-            bundle.putString("diff", checkedButton.getText().toString());
+            String diff = checkedButton.getText().toString();
+            bundle.putString("diff", diff);
+
+            // Initializing GameState
+            GameState gameState = new GameState(name, diff);
 
             intent.putExtras(bundle);
             startActivity(intent);

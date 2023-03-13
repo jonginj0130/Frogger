@@ -84,7 +84,7 @@ public class GameView extends View implements Runnable {
         initializeVehicles();
 
         // sets # of lives
-        String diff = bundle.getString("diff");
+        String diff = GameState.diff;
         this.life = 3;
         if (diff.equals("Easy")) {
             this.life = 5;
