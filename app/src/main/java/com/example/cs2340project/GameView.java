@@ -39,6 +39,8 @@ public class GameView extends View implements Runnable {
     private Paint scorePaint = new Paint();
     private boolean paused = false;
 
+    private Rect riverRect;
+
     /*
          [
     row0   [Vehicle, Vehicle]
@@ -93,6 +95,10 @@ public class GameView extends View implements Runnable {
             this.life = 4;
         }
         handler = new Handler();
+
+        //Calculating for river collision
+        riverRect = new Rect(0, lifeImage.getHeight(), screenWidth,
+                riverTile.getWidth() * 5 + lifeImage.getHeight());
     }
     @Override
     public void run() {
@@ -113,8 +119,26 @@ public class GameView extends View implements Runnable {
                 for (Vehicle vehicle : rowVehicles) {
                     moveVehicle(vehicle, isRight);
 
+                    //collision with vehicle
                     if (Rect.intersects(vehicle.getRect(), frog.getRect())) {
                         if (life == 1) {
+
+                        } else {
+                            life -= 1;
+                            points = 0;
+
+                            for (int i = life; i > 0; i--) {
+                                canvas.drawBitmap(lifeImage,
+                                        this.screenWidth - lifeImage.getWidth() * i, 0,null);
+                            }
+                            moveFrogStart();
+                        }
+
+                    }
+                    //collision with river
+                    if (Rect.intersects(riverRect, frog.getRect())) {
+                        if (life == 1) {
+
                         } else {
                             life -= 1;
                             points = 0;

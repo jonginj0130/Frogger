@@ -3,6 +3,7 @@ package com.example.cs2340project;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Rect;
 import android.view.Display;
 
 public class Tile {
@@ -33,4 +34,5 @@ public class Tile {
     public Bitmap getTile() {
         return tile;
     }
+
 }
