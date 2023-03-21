@@ -120,7 +120,11 @@ public class GameView extends View implements Runnable {
                 for (Vehicle vehicle : rowVehicles) {
                     moveVehicle(vehicle, isRight);
                     if (Rect.intersects(vehicle.getRect(), frog.getRect())) {
+
                         GameState.setPoints(Math.max(points, GameState.getPoints()));
+                        score.setScore(0);
+                        score.setTilesPassed(0);
+
                         if (life == 1) {
                             paused = true;
                             handler = null;
@@ -142,6 +146,8 @@ public class GameView extends View implements Runnable {
                     if (Rect.intersects(riverRect, frog.getRect())) {
 
                         GameState.setPoints(Math.max(points, GameState.getPoints()));
+                        score.setScore(0);
+                        score.setTilesPassed(0);
 
                         if (life == 1) {
                             paused = true;
