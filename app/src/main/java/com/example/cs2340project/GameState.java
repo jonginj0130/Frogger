@@ -15,4 +15,7 @@ public class GameState {
     public static int getPoints() {
         return points;
     }
+    public static void setPoints(int points) {
+        GameState.points = points;
+    }
 }

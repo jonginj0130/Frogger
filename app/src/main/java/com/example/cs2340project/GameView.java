@@ -121,8 +121,10 @@ public class GameView extends View implements Runnable {
 
                     //collision with vehicle
                     if (Rect.intersects(vehicle.getRect(), frog.getRect())) {
-                        if (life == 1) {
 
+                        GameState.setPoints(Math.max(points, GameState.getPoints()));
+
+                        if (life == 1) {
                         } else {
                             life -= 1;
                             points = 0;
@@ -137,6 +139,9 @@ public class GameView extends View implements Runnable {
                     }
                     //collision with river
                     if (Rect.intersects(riverRect, frog.getRect())) {
+
+                        GameState.setPoints(Math.max(points, GameState.getPoints()));
+
                         if (life == 1) {
 
                         } else {
