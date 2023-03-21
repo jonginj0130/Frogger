@@ -3,6 +3,7 @@ package com.example.cs2340project;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Rect;
 import android.view.Display;
 public class Frog {
 
@@ -50,11 +51,12 @@ public class Frog {
 
     }
 
-
-
-
     public Bitmap getFrog() {
         return frog;
+    }
+
+    public Rect getRect() {
+        return new Rect(posx, posy, posx + width, posy + height);
     }
 
 }

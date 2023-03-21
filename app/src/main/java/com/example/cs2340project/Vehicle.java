@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Rect;
 
 public class Vehicle {
     int speed;
@@ -47,5 +48,8 @@ public class Vehicle {
         this.posy = (float) ((GameView.screenHeight * 0.0714 * 9) + lifeHeight);
     }
 
+    public Rect getRect() {
+        return new Rect((int) posx, (int) posy, (int) (posx + width), (int) (posy + height));
+    }
 
 }
