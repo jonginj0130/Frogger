@@ -2,11 +2,13 @@ package com.example.cs2340project;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Point;
+import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
@@ -36,6 +38,8 @@ public class GameView extends View implements Runnable {
     private Paint scorePaint = new Paint();
     private boolean paused = false;
 
+    private Rect riverRect;
+
     /*
          [
     row0   [Vehicle, Vehicle]
@@ -56,8 +60,9 @@ public class GameView extends View implements Runnable {
         Display display = ((Activity) getContext()).getWindowManager().getDefaultDisplay();
         Point size = new Point();
         // stores the x (width) and y (height) coordinates of the display of the device
-        display.getSize(size);
-        // size now contains the x and y of the display of the device
+
+        display.getSize(size); // size now contains the x and y of the display of the device
+
 
         scorePaint.setTextSize(100);
         scorePaint.setTypeface(Typeface.MONOSPACE);
@@ -68,6 +73,7 @@ public class GameView extends View implements Runnable {
         this.screenHeight = size.y;
         int spriteColor = bundle.getInt("spriteColor"); // Accessing from bundle
         this.frog = new Frog(spriteColor, context, screenWidthRatio, screenHeightRatio);
+
 
         lifeImage = BitmapFactory.decodeResource(context.getResources(), R.drawable.heart);
         // Creates Bitmap
@@ -86,7 +92,7 @@ public class GameView extends View implements Runnable {
         initializeVehicles();
 
         // sets # of lives
-        String diff = GameState.diff;
+        String diff = GameState.getDifficulty();
         this.life = 3;
         if (diff.equals("Easy")) {
             this.life = 5;
@@ -94,6 +100,10 @@ public class GameView extends View implements Runnable {
             this.life = 4;
         }
         handler = new Handler();
+
+        //Calculating for river collision
+        riverRect = new Rect(0, lifeImage.getHeight(), screenWidth,
+                riverTile.getWidth() * 5 + lifeImage.getHeight());
     }
     @Override
     public void run() {
@@ -113,10 +123,62 @@ public class GameView extends View implements Runnable {
             for (ArrayList<Vehicle> rowVehicles : vehicles) {
                 for (Vehicle vehicle : rowVehicles) {
                     moveVehicle(vehicle, isRight);
+                    if (Rect.intersects(vehicle.getRect(), frog.getRect())) {
+
+                        GameState.setPoints(Math.max(points, GameState.getPoints()));
+                        score.setScore(0);
+                        score.setTilesPassed(0);
+
+                        if (life == 1) {
+                            paused = true;
+                            handler = null;
+                            Intent intent =  new Intent(context, GameOver.class);
+                            context.startActivity(intent);
+                            ((Activity) context).finish();
+                        } else {
+                            life -= 1;
+                            points = 0;
+                            for (int i = life; i > 0; i--) {
+                                canvas.drawBitmap(lifeImage,
+                                        this.screenWidth - lifeImage.getWidth() * i, 0, null);
+                            }
+                            moveFrogStart();
+                        }
+
+                    }
+                    //collision with river
+                    if (Rect.intersects(riverRect, frog.getRect())) {
+
+                        GameState.setPoints(Math.max(points, GameState.getPoints()));
+                        score.setScore(0);
+                        score.setTilesPassed(0);
+
+                        if (life == 1) {
+                            paused = true;
+                            handler = null;
+                            Intent intent =  new Intent(context, GameOver.class);
+                            context.startActivity(intent);
+                            ((Activity) context).finish();
+                        } else {
+                            life -= 1;
+                            points = 0;
+                            for (int i = life; i > 0; i--) {
+                                canvas.drawBitmap(lifeImage,
+                                        this.screenWidth - lifeImage.getWidth() * i, 0, null);
+                            }
+                            moveFrogStart();
+                        }
+                    }
                 }
                 isRight = !isRight;
             }
         }
+    }
+
+    private void moveFrogStart() {
+        frog.posx = 3 * frog.width;
+        frog.posy = (int) (GameView.screenHeight * 0.05
+                + GameView.screenHeight * screenHeightRatio * 12 - frog.height);
     }
 
     @Override

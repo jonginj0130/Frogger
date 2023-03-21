@@ -4,9 +4,11 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
+
 public class Tile {
     protected Context context;
     protected Bitmap tile;
+
     protected int width;
     protected int height;
     protected int tileID;
@@ -33,4 +35,5 @@ public class Tile {
     public Bitmap getTile() {
         return tile;
     }
+
 }

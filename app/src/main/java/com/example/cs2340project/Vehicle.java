@@ -3,6 +3,7 @@ package com.example.cs2340project;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Rect;
 
 public class Vehicle {
     protected int speed;
@@ -19,9 +20,9 @@ public class Vehicle {
     protected Bitmap vehicle;
 
 
+
     Vehicle(Context context, int vehicleType, int width,
              int height, float posx, float posy, int speed) {
-
         this.context = context;
         this.vehicle = BitmapFactory.decodeResource(context.getResources(), vehicleType);
         this.height = height; //should be 0.075 * total screenHeight
@@ -51,5 +52,8 @@ public class Vehicle {
         this.posy = (float) ((GameView.screenHeight * 0.0714 * 9) + lifeHeight);
     }
 
+    public Rect getRect() {
+        return new Rect((int) posx, (int) posy, (int) (posx + width), (int) (posy + height));
+    }
 
 }

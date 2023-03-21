@@ -3,6 +3,7 @@ package com.example.cs2340project;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Rect;
 public class Frog {
 
     protected Context context;
@@ -10,8 +11,10 @@ public class Frog {
     protected int posx;
     protected int posy;
     protected int spriteColor;
+
     protected int width;
     protected int height;
+
     protected String color;
 
     public Frog(int spriteColor, Context context,
@@ -56,9 +59,11 @@ public class Frog {
                 + GameView.screenHeight * screenHeightRatio * 12 - height);
     }
 
-
     public Bitmap getFrog() {
         return frog;
+    }
+    public Rect getRect() {
+        return new Rect(posx, posy, posx + width, posy + height);
     }
 
 }
