@@ -2,6 +2,7 @@ package com.example.cs2340project;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -112,13 +113,16 @@ public class GameView extends View implements Runnable {
             for (ArrayList<Vehicle> rowVehicles : vehicles) {
                 for (Vehicle vehicle : rowVehicles) {
                     moveVehicle(vehicle, isRight);
-
                     if (Rect.intersects(vehicle.getRect(), frog.getRect())) {
                         if (life == 1) {
+                            paused = true;
+                            handler = null;
+                            Intent intent =  new Intent(context, GameOver.class);
+                            context.startActivity(intent);
+                            ((Activity) context).finish();
                         } else {
                             life -= 1;
                             points = 0;
-
                             for (int i = life; i > 0; i--) {
                                 canvas.drawBitmap(lifeImage,
                                         this.screenWidth - lifeImage.getWidth() * i, 0,null);

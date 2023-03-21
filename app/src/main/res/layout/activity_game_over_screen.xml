@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
-    tools:context=". ">
+    tools:context=".GameOver">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -57,24 +57,29 @@
             android:gravity="center_horizontal"
             android:orientation="horizontal">
             <ImageButton
-                android:id="@+id/exit"
+                android:id="@+id/restart"
+                android:contentDescription="Restart"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:background="@color/background"
                 android:padding="10dp"
-                android:src="@drawable/blue_frog" />
+                android:src="@drawable/green_frog"
+                android:onClick="restart"/>
             <Space
                 android:layout_width="30dp"
                 android:layout_height="1dp"/>
             <ImageButton
-                android:id="@+id/restart"
+                android:id="@+id/exit"
+                android:contentDescription="Exit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:background="@color/background"
                 android:padding="10dp"
-                android:src="@drawable/green_frog" />
+                android:src="@drawable/blue_frog"
+                android:onClick="exit"/>
+
         </LinearLayout>
 
         <View

@@ -33,6 +33,7 @@ public class SpriteSelectionScreen extends AppCompatActivity {
             bundle.putInt("spriteColor", color);
             intent.putExtras(bundle);
             startActivity(intent);
+            finish();
         } else {
             spriteSelected = frogClicked;
 
