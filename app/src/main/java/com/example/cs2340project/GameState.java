@@ -15,10 +15,12 @@ public class GameState {
     public static int getPoints() {
         return points;
     }
-
     public static void restart() {
         playerName = null;
         diff = null;
         points = 0;
+    }
+    public static void setPoints(int points) {
+        GameState.points = points;
     }
 }
