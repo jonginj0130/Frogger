@@ -3,6 +3,8 @@ package com.example.cs2340project;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Rect;
+
 public class Frog {
 
     protected Context context;
@@ -61,4 +63,7 @@ public class Frog {
         return frog;
     }
 
+    public Rect getCollision () {
+        return new Rect((int) posx, (int) posy, (int) (posx + width), (int) (posy + height));
+    }
 }

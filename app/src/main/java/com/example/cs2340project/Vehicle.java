@@ -3,6 +3,7 @@ package com.example.cs2340project;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Rect;
 
 public class Vehicle {
     protected int speed;
@@ -37,6 +38,11 @@ public class Vehicle {
     public Bitmap getVehicle() {
         return vehicle;
     }
+
+    public Rect getCollision () {
+        return new Rect((int) posx, (int) posy, (int) (posx + width), (int) (posy + height));
+    }
+
 
     // for testing purpose
     Vehicle(double screenWidthRatio, double screenHeightRatio, float lifeHeight, int speed) {
