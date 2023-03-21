@@ -15,8 +15,6 @@ import android.os.Handler;
 import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -30,10 +28,10 @@ public class GameView extends View implements Runnable {
     // riverTile, goalTile, roadTile, and safeTile to be added.
     private Handler handler; // Utilized to _____
     private long updateMillis = 30; // Time Frame to update the view
-    static int screenWidth;
-    static int screenHeight;
-    static double screenWidthRatio = 0.143;
-    static double screenHeightRatio = 0.0714;
+    protected static int screenWidth;
+    protected static int screenHeight;
+    protected static double screenWidthRatio = 0.143;
+    protected static double screenHeightRatio = 0.0714;
     private int life;
     private Score score;
     private int points = 0;
@@ -60,7 +58,8 @@ public class GameView extends View implements Runnable {
         this.context = context;
         // Used to access the display size of the device
         Display display = ((Activity) getContext()).getWindowManager().getDefaultDisplay();
-        Point size = new Point(); // stores the x (width) and y (height) coordinates of the display of the device
+        Point size = new Point();
+        // stores the x (width) and y (height) coordinates of the display of the device
         display.getSize(size); // size now contains the x and y of the display of the device
 
         scorePaint.setTextSize(100);
@@ -73,8 +72,10 @@ public class GameView extends View implements Runnable {
         int spriteColor = bundle.getInt("spriteColor"); // Accessing from bundle
         this.frog = new Frog(spriteColor, context, screenWidthRatio, screenHeightRatio);
 
-        lifeImage = BitmapFactory.decodeResource(context.getResources(), R.drawable.heart); // Creates Bitmap
-        lifeImage = Bitmap.createScaledBitmap(lifeImage, (int) (screenHeight * 0.05), (int) (screenHeight * 0.05), false); // Scales Bitmap
+        lifeImage = BitmapFactory.decodeResource(context.getResources(),
+                R.drawable.heart); // Creates Bitmap
+        lifeImage = Bitmap.createScaledBitmap(lifeImage,
+                (int) (screenHeight * 0.05), (int) (screenHeight * 0.05), false); // Scales Bitmap
         riverTile = new Tile(context, (int) (screenWidth * screenWidthRatio),
                 (int) (screenHeight * screenHeightRatio), R.drawable.river, false).getTile();
         goalTile = new Tile(context, (int) (screenWidth * screenWidthRatio),
@@ -136,7 +137,7 @@ public class GameView extends View implements Runnable {
                             points = 0;
                             for (int i = life; i > 0; i--) {
                                 canvas.drawBitmap(lifeImage,
-                                        this.screenWidth - lifeImage.getWidth() * i, 0,null);
+                                        this.screenWidth - lifeImage.getWidth() * i, 0, null);
                             }
                             moveFrogStart();
                         }
@@ -160,7 +161,7 @@ public class GameView extends View implements Runnable {
                             points = 0;
                             for (int i = life; i > 0; i--) {
                                 canvas.drawBitmap(lifeImage,
-                                        this.screenWidth - lifeImage.getWidth() * i, 0,null);
+                                        this.screenWidth - lifeImage.getWidth() * i, 0, null);
                             }
                             moveFrogStart();
                         }
@@ -173,7 +174,8 @@ public class GameView extends View implements Runnable {
 
     private void moveFrogStart() {
         frog.posx = 3 * frog.width;
-        frog.posy = (int) (GameView.screenHeight * 0.05 + GameView.screenHeight * screenHeightRatio * 12 - frog.height);
+        frog.posy = (int) (GameView.screenHeight * 0.05
+                + GameView.screenHeight * screenHeightRatio * 12 - frog.height);
     }
 
     @Override
@@ -229,14 +231,14 @@ public class GameView extends View implements Runnable {
     private void drawBackground(Canvas canvas) {
         for (int i = life; i > 0; i--) {
             canvas.drawBitmap(lifeImage,
-                    this.screenWidth - lifeImage.getWidth() * i, 0,null);
+                    this.screenWidth - lifeImage.getWidth() * i, 0, null);
         }
         int numTiles = (int) Math.ceil((double) screenWidth / riverTile.getWidth()); // Should be 12
         int top = 0;
         top += (int) lifeImage.getHeight();
         for (int i = 0; i < numTiles; i++) {
             canvas.drawBitmap(goalTile,
-                    goalTile.getWidth() * i, top,null);
+                    goalTile.getWidth() * i, top, null);
         }
         top += (int) Math.ceil(screenHeight * 0.0714);
         for (int i = 0; i < 4; i++) {
@@ -248,7 +250,7 @@ public class GameView extends View implements Runnable {
         }
         for (int i = 0; i < numTiles; i++) {
             canvas.drawBitmap(safeTile,
-                    safeTile.getWidth() * i, top,null);
+                    safeTile.getWidth() * i, top, null);
         }
         top += (int) Math.ceil(screenHeight * 0.0714);
         for (int i = 0; i < 5; i++) {
@@ -260,7 +262,7 @@ public class GameView extends View implements Runnable {
         }
         for (int i = 0; i < numTiles; i++) {
             canvas.drawBitmap(safeTile,
-                    safeTile.getWidth() * i, top,null);
+                    safeTile.getWidth() * i, top, null);
         }
         top += (int) Math.ceil(screenHeight * 0.0714);
     }
@@ -277,26 +279,32 @@ public class GameView extends View implements Runnable {
 
         Vehicle vehicle0 = new Vehicle(context, R.drawable.police_car, tileWidth,
                 (int) (tileHeight * 0.8), 0,
-                (float) ((GameView.screenHeight * 0.0714 * 6) + lifeImage.getHeight() + (tileHeight / 8)),
+                (float) ((GameView.screenHeight * 0.0714 * 6)
+                        + lifeImage.getHeight() + (tileHeight / 8)),
                 20);
         Vehicle vehicle1 = new Vehicle(context, R.drawable.police_car, tileWidth,
                 (int) (tileHeight * 0.8), 4 * tileWidth,
-                (float) ((GameView.screenHeight * 0.0714 * 6) + lifeImage.getHeight() + (tileHeight / 8)), 20);
+                (float) ((GameView.screenHeight * 0.0714 * 6)
+                        + lifeImage.getHeight() + (tileHeight / 8)), 20);
         Vehicle vehicle2 = new Vehicle(context, R.drawable.red_car, tileWidth,
                 (int) (tileHeight * 0.8), GameView.screenWidth,
-                (float) ((GameView.screenHeight * 0.0714 * 7) + lifeImage.getHeight() + (tileHeight / 8)),
+                (float) ((GameView.screenHeight * 0.0714 * 7)
+                        + lifeImage.getHeight() + (tileHeight / 8)),
                 20);
         Vehicle vehicle3 = new Vehicle(context, R.drawable.big_truck, tileWidth * 2,
                 (int) (tileHeight * 0.8), 0,
-                (float) ((GameView.screenHeight * 0.0714 * 8) + lifeImage.getHeight() + (tileHeight / 8)),
+                (float) ((GameView.screenHeight * 0.0714 * 8)
+                        + lifeImage.getHeight() + (tileHeight / 8)),
                 15);
         Vehicle vehicle4 = new Vehicle(context, R.drawable.small_truck, (int) (tileWidth * 1.5),
                 (int) (tileHeight * 0.8), GameView.screenWidth,
-                (float) ((GameView.screenHeight * 0.0714 * 9) + lifeImage.getHeight()) + (tileHeight / 8),
+                (float) ((GameView.screenHeight * 0.0714 * 9)
+                        + lifeImage.getHeight()) + (tileHeight / 8),
                 15);
         Vehicle vehicle5 = new Vehicle(context, R.drawable.police_car, tileWidth,
                 (int) (tileHeight * 0.8), 2 * tileWidth,
-                (float) ((GameView.screenHeight * 0.0714 * 10) + lifeImage.getHeight()) + (tileHeight / 8),
+                (float) ((GameView.screenHeight * 0.0714 * 10)
+                        + lifeImage.getHeight()) + (tileHeight / 8),
                 8);
         // Adding each vehicle to the arraylist Vehicles
         vehicles[0].add(vehicle0);
@@ -326,8 +334,9 @@ public class GameView extends View implements Runnable {
 
     private void drawVehicleAtStart(Canvas canvas) {
         for (ArrayList<Vehicle> rowVehicles : vehicles) {
-            for(Vehicle vehicle : rowVehicles)
+            for (Vehicle vehicle : rowVehicles) {
                 canvas.drawBitmap(vehicle.getVehicle(), vehicle.posx, vehicle.posy, null);
+            }
         }
     }
 }
