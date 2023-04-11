@@ -9,15 +9,18 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class SpriteSelectionScreen extends AppCompatActivity {
     private ImageButton spriteSelected;
+    private ImageButton greenFrogBtn;
+    private ImageButton blueFrogBtn;
+    private ImageButton redFrogBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_spirte_selection_screen);
 
-        ImageButton greenFrogBtn = findViewById(R.id.green_frog);
-        ImageButton blueFrogBtn = findViewById(R.id.blue_frog);
-        ImageButton redFrogBtn = findViewById(R.id.red_frog);
+        greenFrogBtn = findViewById(R.id.green_frog);
+        blueFrogBtn = findViewById(R.id.blue_frog);
+        redFrogBtn = findViewById(R.id.red_frog);
 
         greenFrogBtn.setOnClickListener(view -> onBtnClick(R.drawable.green_frog, greenFrogBtn));
         blueFrogBtn.setOnClickListener(view -> onBtnClick(R.drawable.blue_frog, blueFrogBtn));
@@ -36,20 +39,16 @@ public class SpriteSelectionScreen extends AppCompatActivity {
             finish();
         } else {
             spriteSelected = frogClicked;
-
-            //i tried pulling this out to class scope but it caused errors
-            ImageButton greenFrogBtn = findViewById(R.id.green_frog);
-            ImageButton blueFrogBtn = findViewById(R.id.blue_frog);
-            ImageButton redFrogBtn = findViewById(R.id.red_frog);
-
-            //set all frog backgrounds back to blue
-            greenFrogBtn.setBackgroundResource(R.color.spriteBackground);
-            blueFrogBtn.setBackgroundResource(R.color.spriteBackground);
-            redFrogBtn.setBackgroundResource(R.color.spriteBackground);
-
+            resetBackground();
             //set the clicked one to yellow
             frogClicked.setBackgroundResource(R.color.selectedSpriteBackground);
         }
     }
 
+    private void resetBackground() {
+        //set all frog backgrounds back to blue
+        greenFrogBtn.setBackgroundResource(R.color.spriteBackground);
+        blueFrogBtn.setBackgroundResource(R.color.spriteBackground);
+        redFrogBtn.setBackgroundResource(R.color.spriteBackground);
+    }
 }
