@@ -20,9 +20,9 @@ public class Vehicle {
     protected Bitmap vehicle;
 
 
-    Vehicle(Context context, int vehicleType,
-             int width, int height, float posx, float posy, int speed) {
 
+    Vehicle(Context context, int vehicleType, int width,
+             int height, float posx, float posy, int speed) {
         this.context = context;
         this.vehicle = BitmapFactory.decodeResource(context.getResources(), vehicleType);
         this.height = height; //should be 0.075 * total screenHeight

@@ -13,7 +13,6 @@ import static org.junit.Assert.*;
  * Made by Race Williams.
  */
 public class VerifyAssetsExist {
-
     @Test
     public void testCoinPngExists() {
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
@@ -22,8 +21,6 @@ public class VerifyAssetsExist {
         Drawable drawable = resources.getDrawable(resourceId, null);
         assertNotNull("Drawable not found for coin.png", drawable);
     }
-
-    // sprint 4 tests
 
     @Test
     public void testRedFrogExists() {
@@ -68,6 +65,5 @@ public class VerifyAssetsExist {
         Drawable drawable = resources.getDrawable(resourceId, null);
         assertNotNull("Drawable not found for small_truck.png", drawable);
     }
-
 
 }

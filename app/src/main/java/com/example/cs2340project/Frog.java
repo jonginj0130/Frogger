@@ -9,7 +9,6 @@ public class Frog {
     protected Context context;
     protected Bitmap frog;
     protected int posx;
-
     protected int posy;
     protected int spriteColor;
 
@@ -18,11 +17,11 @@ public class Frog {
 
     protected String color;
 
-
     public Frog(int spriteColor, Context context,
                 double screenWidthRatio, double screenHeightRatio) {
         this.context = context;
-        this.spriteColor = spriteColor; // R.drawable.x is an ID that is an Integer Type
+        this.spriteColor = spriteColor;
+        // R.drawable.x is an ID that is an Integer Type
         this.frog = BitmapFactory.decodeResource(context.getResources(), spriteColor);
         this.height = (int) (GameView.screenWidth * screenWidthRatio);
         //should be 0.075 * total screenHeight
@@ -58,13 +57,11 @@ public class Frog {
         this.posx = 3 * width;
         this.posy = (int) (GameView.screenHeight * 0.05
                 + GameView.screenHeight * screenHeightRatio * 12 - height);
-
     }
 
     public Bitmap getFrog() {
         return frog;
     }
-
     public Rect getRect() {
         return new Rect(posx, posy, posx + width, posy + height);
     }
