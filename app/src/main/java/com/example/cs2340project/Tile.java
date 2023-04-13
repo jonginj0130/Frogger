@@ -7,7 +7,7 @@ import android.graphics.BitmapFactory;
 
 public class Tile {
     protected Context context;
-    private Bitmap tile;
+    protected Bitmap tile;
 
     protected int width;
     protected int height;

@@ -21,6 +21,10 @@
             android:screenOrientation="portrait"
             android:exported="false" />
         <activity
+            android:name=".GameWin"
+            android:screenOrientation="portrait"
+            android:exported="false" />
+        <activity
             android:name=".SpriteSelectionScreen"
             android:exported="false" />
         <activity

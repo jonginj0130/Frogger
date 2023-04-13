@@ -1,7 +1,7 @@
 package com.example.cs2340project;
 
 public class GameState {
-    private static String playerName;
+    protected static String playerName;
     protected static String diff;
     private static int points;
     public GameState(String playerName, String diff) {
