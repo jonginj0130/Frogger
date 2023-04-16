@@ -16,6 +16,7 @@ import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Random;
 
 public class GameView extends View implements Runnable {
@@ -27,7 +28,7 @@ public class GameView extends View implements Runnable {
     private Bitmap safeTile;
     // riverTile, goalTile, roadTile, and safeTile to be added.
     private Handler handler; // Utilized to _____
-    private long updateMillis = 30; // Time Frame to update the view
+    private long updateMillis = 20; // Time Frame to update the view
     protected static int screenWidth;
     protected static int screenHeight;
     protected static double screenWidthRatio = 0.143;
@@ -40,6 +41,8 @@ public class GameView extends View implements Runnable {
 
     private Rect riverRect;
 
+    private HashMap<Rect, Log> logLocations = new HashMap<Rect, Log>();
+
     /*
          [
     row0   [Vehicle, Vehicle]
@@ -50,6 +53,7 @@ public class GameView extends View implements Runnable {
          ]
      */
     private ArrayList<Vehicle>[] vehicles = new ArrayList[5];
+    private ArrayList<Log>[] logs = new ArrayList[4];
 
     private Random random;
     private Frog frog;
@@ -90,6 +94,8 @@ public class GameView extends View implements Runnable {
 
         // initializing vehicles. Refer to this function to modify vehicles.
         initializeVehicles();
+        // initializing logs
+        initializeLogs();
 
         // sets # of lives
         String diff = GameState.getDifficulty();
@@ -112,65 +118,42 @@ public class GameView extends View implements Runnable {
 
     @Override
     protected void onDraw(Canvas canvas) {
+        logLocations.clear(); // reset logLocations
         drawBackground(canvas);
         drawFrogAtStart(canvas);
         updateScore(canvas);
         drawVehicleAtStart(canvas);
+        drawLogAtStart(canvas);
 
         if (!paused) {
             handler.postDelayed(this, updateMillis);
-            boolean isRight = true;
-            for (ArrayList<Vehicle> rowVehicles : vehicles) {
-                for (Vehicle vehicle : rowVehicles) {
-                    moveVehicle(vehicle, isRight);
-                    if (Rect.intersects(vehicle.getRect(), frog.getRect())) {
 
-                        GameState.setPoints(Math.max(points, GameState.getPoints()));
-                        score.setScore(0);
-                        score.setTilesPassed(0);
+            for (ArrayList<Log> rowLogs: logs) {
+                for (Log log : rowLogs) {
+                    moveLogs(log);
+                }
+            }
 
-                        if (life == 1) {
-                            paused = true;
-                            handler = null;
-                            Intent intent =  new Intent(context, GameOver.class);
-                            context.startActivity(intent);
-                            ((Activity) context).finish();
-                        } else {
-                            life -= 1;
-                            points = 0;
-                            for (int i = life; i > 0; i--) {
-                                canvas.drawBitmap(lifeImage,
-                                        this.screenWidth - lifeImage.getWidth() * i, 0, null);
-                            }
-                            moveFrogStart();
-                        }
-
-                    }
-                    //collision with river
-                    if (Rect.intersects(riverRect, frog.getRect())) {
-
-                        GameState.setPoints(Math.max(points, GameState.getPoints()));
-                        score.setScore(0);
-                        score.setTilesPassed(0);
-
-                        if (life == 1) {
-                            paused = true;
-                            handler = null;
-                            Intent intent =  new Intent(context, GameOver.class);
-                            context.startActivity(intent);
-                            ((Activity) context).finish();
-                        } else {
-                            life -= 1;
-                            points = 0;
-                            for (int i = life; i > 0; i--) {
-                                canvas.drawBitmap(lifeImage,
-                                        this.screenWidth - lifeImage.getWidth() * i, 0, null);
-                            }
-                            moveFrogStart();
-                        }
+            if (!frog.onLog(logLocations) && frog.onRiver(riverRect)) {
+                decrementLife(canvas);
+            } else {
+                if (frog.playerLog != null) {
+                    frog.posx += frog.playerLog.speed;
+                    if (frog.posx <= 0 || frog.posx + frog.width >= screenWidth) {
+                        decrementLife(canvas);
+                    } else {
+                        canvas.drawBitmap(frog.getFrog(), frog.posx, frog.posy, null);
                     }
                 }
-                isRight = !isRight;
+            }
+
+            for (ArrayList<Vehicle> rowVehicles : vehicles) {
+                for (Vehicle vehicle : rowVehicles) {
+                    moveVehicle(vehicle);
+                    if (frog.collideWithVehicle(vehicle)) {
+                        decrementLife(canvas);
+                    }
+                }
             }
         }
     }
@@ -269,6 +252,76 @@ public class GameView extends View implements Runnable {
         }
         top += (int) Math.ceil(screenHeight * 0.0714);
     }
+    private void initializeLogs() {
+        int tileWidth = (int) (screenWidth * screenWidthRatio);
+        int tileHeight = (int) (screenHeight * screenHeightRatio);
+
+        // Initializing ArrayList
+        for (int i = 0; i < 4; i++) {
+            logs[i] = new ArrayList<Log>();
+        }
+
+        // Using for-loop to create rocks at index 0 and row 2 of the logs ArrayList
+        for (int i = 0; i < 3; i += 2) {
+            for (int j = 0; j < 3; j++) {
+                logs[i].add(new Log(context, R.drawable.rock, tileWidth,
+                        (int) (tileHeight * 0.8), (j * tileWidth) + i * tileWidth,
+                        (float) ((GameView.screenHeight * 0.0714 * (4 - i)) + lifeImage.getHeight()
+                                + (tileHeight / 8)),
+                        10));
+            }
+            for (int j = 0; j < 2; j++) {
+                logs[i].add(new Log(context, R.drawable.rock, tileWidth,
+                        (int) (tileHeight * 0.8), j * tileWidth + (i + 4) * tileWidth,
+                        (float) ((GameView.screenHeight * 0.0714 * (4 - i)) + lifeImage.getHeight()
+                                + (tileHeight / 8)),
+                        10));
+            }
+        }
+
+        Log log1 = new Log(context, R.drawable.log, (int) (2.5 * tileWidth),
+                (int) (tileHeight * 0.6), 0,
+                (float) ((GameView.screenHeight * 0.0714 * 3) + lifeImage.getHeight()
+                        + (tileHeight / 8)),
+                -10);
+        Log log2 = new Log(context, R.drawable.log, (int) (2.5 * tileWidth),
+                (int) (tileHeight * 0.6), screenWidth - 2 * tileWidth,
+                (float) ((GameView.screenHeight * 0.0714 * 3) + lifeImage.getHeight()
+                        + (tileHeight / 8)),
+                -10);
+        Log log3 = new Log(context, R.drawable.log, (int) (2.5 * tileWidth),
+                (int) (tileHeight * 0.6), 0,
+                (float) ((GameView.screenHeight * 0.0714 * 1) + lifeImage.getHeight()
+                        + (tileHeight / 8)),
+                -15);
+        Log log4 = new Log(context, R.drawable.log, (int) (2.5 * tileWidth),
+                (int) (tileHeight * 0.6), screenWidth - 2 * tileWidth,
+                (float) ((GameView.screenHeight * 0.0714 * 1) + lifeImage.getHeight()
+                        + (tileHeight / 8)),
+                -15);
+
+        logs[1].add(log1);
+        logs[1].add(log2);
+        logs[3].add(log3);
+        logs[3].add(log4);
+    }
+
+    private void moveLogs(Log log) {
+        if (log.speed > 0 && log.posx >= screenWidth) {
+            log.posx = -log.width;
+        } else if (log.speed < 0 && log.posx <= -log.width) {
+            log.posx = screenWidth;
+        }
+        log.posx += log.speed;
+    }
+    private void drawLogAtStart(Canvas canvas) {
+        for (ArrayList<Log> rowLogs : logs) {
+            for (Log log : rowLogs) {
+                canvas.drawBitmap(log.getLog(), log.posx, log.posy, null);
+                logLocations.put(log.getRect(), log);
+            }
+        }
+    }
 
     // Private function used to set up vehicles
     private void initializeVehicles() {
@@ -293,7 +346,7 @@ public class GameView extends View implements Runnable {
                 (int) (tileHeight * 0.8), GameView.screenWidth,
                 (float) ((GameView.screenHeight * 0.0714 * 7) + lifeImage.getHeight()
                         + (tileHeight / 8)),
-                20);
+                -20);
         Vehicle vehicle3 = new Vehicle(context, R.drawable.big_truck, tileWidth * 2,
                 (int) (tileHeight * 0.8), 0,
                 (float) ((GameView.screenHeight * 0.0714 * 8) + lifeImage.getHeight()
@@ -303,7 +356,7 @@ public class GameView extends View implements Runnable {
                 (int) (tileHeight * 0.8), GameView.screenWidth,
                 (float) ((GameView.screenHeight * 0.0714 * 9) + lifeImage.getHeight())
                         + (tileHeight / 8),
-                15);
+                -15);
         Vehicle vehicle5 = new Vehicle(context, R.drawable.police_car, tileWidth,
                 (int) (tileHeight * 0.8), 2 * tileWidth,
                 (float) ((GameView.screenHeight * 0.0714 * 10) + lifeImage.getHeight())
@@ -317,17 +370,33 @@ public class GameView extends View implements Runnable {
         vehicles[3].add(vehicle4);
         vehicles[4].add(vehicle5);
     }
-    private void moveVehicle(Vehicle vehicle, Boolean isRight) {
-        if (isRight) {
-            vehicle.posx += vehicle.speed;
-            if (vehicle.posx >= screenWidth) {
-                vehicle.posx = -vehicle.width;
-            }
+    private void moveVehicle(Vehicle vehicle) {
+        if (vehicle.speed > 0 && vehicle.posx >= screenWidth) {
+            vehicle.posx = -vehicle.width;
+        } else if (vehicle.speed < 0 && vehicle.posx <= -vehicle.width) {
+            vehicle.posx = screenWidth;
+        }
+        vehicle.posx += vehicle.speed;
+    }
+
+    private void decrementLife(Canvas canvas) {
+        GameState.setPoints(Math.max(points, GameState.getPoints()));
+        score.setScore(0);
+        score.setTilesPassed(0);
+        if (life == 1) {
+            paused = true;
+            handler = null;
+            Intent intent =  new Intent(context, GameOver.class);
+            context.startActivity(intent);
+            ((Activity) context).finish();
         } else {
-            vehicle.posx -= vehicle.speed;
-            if (vehicle.posx <= -vehicle.width) {
-                vehicle.posx = screenWidth;
+            life -= 1;
+            points = 0;
+            for (int i = life; i > 0; i--) {
+                canvas.drawBitmap(lifeImage,
+                        this.screenWidth - lifeImage.getWidth() * i, 0, null);
             }
+            moveFrogStart();
         }
     }
 
@@ -342,4 +411,5 @@ public class GameView extends View implements Runnable {
             }
         }
     }
+
 }
