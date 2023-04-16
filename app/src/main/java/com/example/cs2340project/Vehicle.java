@@ -19,7 +19,7 @@ public class Vehicle {
     protected float posy;
     protected Bitmap vehicle;
 
-
+    private static final double POSY_MULTIPLIER = 0.0714;
 
     Vehicle(Context context, int vehicleType, int width,
              int height, float posx, float posy, int speed) {
@@ -33,6 +33,10 @@ public class Vehicle {
         this.posy = posy;
         this.speed = speed;
         // (float) ((GameView.screenHeight * 0.0714 * (9 - row)) + lifeHeight);
+    }
+
+    public void move() {
+        this.posx += this.speed;
     }
 
     public Bitmap getVehicle() {
@@ -49,11 +53,10 @@ public class Vehicle {
         this.lifeHeight = (int) lifeHeight;
         this.speed = speed;
         this.posx = 0;
-        this.posy = (float) ((GameView.screenHeight * 0.0714 * 9) + lifeHeight);
+        this.posy = (float) ((GameView.screenHeight * POSY_MULTIPLIER * 9) + lifeHeight);
     }
 
     public Rect getRect() {
         return new Rect((int) posx, (int) posy, (int) (posx + width), (int) (posy + height));
     }
-
 }
