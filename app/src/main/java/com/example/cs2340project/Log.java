@@ -12,9 +12,6 @@ public class Log {
 
     protected int width;
     protected int height;
-
-    protected int lifeHeight;
-
     protected float posx;
     protected float posy;
 
