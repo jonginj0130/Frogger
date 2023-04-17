@@ -6,6 +6,8 @@ import android.view.View;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.lang.reflect.Method;
+
 public class GameWin extends AppCompatActivity {
     protected TextView tvPoints;
     @Override
@@ -34,5 +36,29 @@ public class GameWin extends AppCompatActivity {
         moveTaskToBack(true);
         android.os.Process.killProcess(android.os.Process.myPid());
         System.exit(1);
+    }
+
+    public static boolean canRestart() {
+        Class clazz = GameWin.class;
+        boolean a = false;
+
+        for (Method method : clazz.getDeclaredMethods()) {
+            if (method.getName().equals("restart")) {
+                a = true;
+            }
+        }
+        return a;
+    }
+
+    public static boolean canExit() {
+        Class clazz = GameWin.class;
+        boolean a = false;
+
+        for (Method method : clazz.getDeclaredMethods()) {
+            if (method.getName().equals("exit")) {
+                a = true;
+            }
+        }
+        return a;
     }
 }

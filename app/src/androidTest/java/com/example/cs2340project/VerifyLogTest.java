@@ -25,4 +25,13 @@ public class VerifyLogTest {
         assertNotNull("Drawable not found for rock.png", drawable);
     }
 
+    @Test
+    public void testRiverExists() {
+        Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
+        Resources resources = appContext.getResources();
+        int resourceId = resources.getIdentifier("river", "drawable", appContext.getPackageName());
+        Drawable drawable = resources.getDrawable(resourceId, null);
+        assertNotNull("Drawable not found for rock.png", drawable);
+    }
+
 }
