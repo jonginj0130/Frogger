@@ -24,14 +24,5 @@ public class VerifyLogTest {
         Drawable drawable = resources.getDrawable(resourceId, null);
         assertNotNull("Drawable not found for rock.png", drawable);
     }
-    @Test
-    public void testGameWin() {
-        Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        Resources resources = appContext.getResources();
-        int resourceId = resources.getIdentifier("rock", "drawable", appContext.getPackageName());
-        Drawable drawable = resources.getDrawable(resourceId, null);
-        assertNotNull("Drawable not found for rock.png", drawable);
-    }
-
 
 }
