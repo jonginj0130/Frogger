@@ -40,3 +40,4 @@ public class GameStateInitializationTest {
         assertEquals(diffValue, state.diff);
     }
 }
+

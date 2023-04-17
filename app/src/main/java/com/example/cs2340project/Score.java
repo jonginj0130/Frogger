@@ -19,5 +19,11 @@ public class Score {
     public int getScore() {
         return score;
     }
+    public void setTilesPassed(int tilesPassed) {
+        this.tilesPassed = tilesPassed;
+    }
 
+    public void setScore(int score) {
+        this.score = score;
+    }
 }
