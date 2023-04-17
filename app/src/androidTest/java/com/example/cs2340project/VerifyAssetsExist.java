@@ -22,7 +22,6 @@ public class VerifyAssetsExist {
         assertNotNull("Drawable not found for coin.png", drawable);
     }
 
-    // Sprint 4
     @Test
     public void testRedFrogExists() {
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();

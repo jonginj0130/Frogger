@@ -4,6 +4,9 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Rect;
+
+import java.util.HashMap;
+
 public class Frog {
 
     protected Context context;
@@ -16,6 +19,8 @@ public class Frog {
     protected int height;
 
     protected String color;
+
+    protected Log playerLog;
 
     public Frog(int spriteColor, Context context,
                 double screenWidthRatio, double screenHeightRatio) {
@@ -66,4 +71,22 @@ public class Frog {
         return new Rect(posx, posy, posx + width, posy + height);
     }
 
+    public boolean collideWithVehicle(Vehicle vehicle) {
+        return Rect.intersects(this.getRect(), vehicle.getRect());
+    }
+
+    public boolean onLog(HashMap<Rect, Log> logLocations) {
+        for (Rect logRect : logLocations.keySet()) {
+            if (Rect.intersects(this.getRect(), logRect)) {
+                playerLog = logLocations.get(logRect);
+                return true;
+            }
+        }
+        playerLog = null;
+        return false;
+    }
+
+    public boolean onRiver(Rect riverRect) {
+        return Rect.intersects(riverRect, this.getRect());
+    }
 }
