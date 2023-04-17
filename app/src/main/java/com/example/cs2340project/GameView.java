@@ -128,6 +128,7 @@ public class GameView extends View implements Runnable {
         if (!paused) {
             handler.postDelayed(this, updateMillis);
 
+<<<<<<< HEAD
             //goal tile reach condition
             if (frog.posy <= (GameView.screenHeight * 0.05 + GameView.screenHeight
                     * screenHeightRatio * 1 - frog.height)) {
@@ -145,6 +146,14 @@ public class GameView extends View implements Runnable {
                 }
             }
 
+=======
+            for (ArrayList<Log> rowLogs: logs) {
+                for (Log log : rowLogs) {
+                    moveLogs(log);
+                }
+            }
+
+>>>>>>> origin
             if (!frog.onLog(logLocations) && frog.onRiver(riverRect)) {
                 decrementLife(canvas);
             } else {
