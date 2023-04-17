@@ -3,7 +3,7 @@ package com.example.cs2340project;
 public class GameState {
 
     private static String playerName;
-    private static String diff;
+    protected static String diff;
 
     private static int points = 0;
 
