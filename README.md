@@ -1,2 +1,2 @@
-# Sprint-1
+# Frogger
 Welcome, Initial Configuration, and Game Screen 
